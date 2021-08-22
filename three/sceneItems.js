@@ -13,9 +13,9 @@ const  wheel = "three/models/compressedTable.glb"
 let model= undefined
 
 function addLights() {
-  const amplight = new THREE.AmbientLight("#ffffff", 0.0);
-  let lightBack = new THREE.SpotLight(0xff9900, 0.01);
-  let lightFront = new THREE.SpotLight(0x00ffff, 0.01);
+  const amplight = new THREE.AmbientLight("#ffffff", 0.1);
+  let lightBack = new THREE.SpotLight(0xff9900, 0.2);
+  let lightFront = new THREE.SpotLight(0x00ffff, 0.2);
   let PointLight = new THREE.PointLight(0xffffff, 0);
   lightBack.position.set(2, 50, -7);
   lightFront.position.set(-2, -30, 7);
@@ -118,7 +118,7 @@ const addToScene = () => {
   addLights();
   addAnnotation()
   setHDRLighting()
-  const gm = new THREE.BoxGeometry(1,1,1)
+  const gm = new THREE.BoxGeometry(0.1,0.1,0.1)
   const mat = new THREE.MeshStandardMaterial()
   const mesh = new THREE.Mesh(gm,mat)
   mesh.position.set(-1,-1,-1)
@@ -136,8 +136,8 @@ const addToScene = () => {
   loadModel(wheel).then(glb=>{
     model = glb
     console.log(model)
-    model.position.set(0, -0.5, 0)
-    model.scale.set(0.0007,0.0007,0.0007)
+    model.position.set(0, 0, 0)
+    model.scale.set(0.0001,0.0001,0.0001)
     scene.add(model)
   }
   )

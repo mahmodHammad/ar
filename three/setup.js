@@ -17,6 +17,7 @@ let height = window.innerHeight;
 
 const canvasElements = document.getElementsByTagName("canvas");
 const canvas = canvasElements[0];
+let controller
 
 // ----------------------------------------------> render
 const renderer = new THREE.WebGLRenderer({
@@ -79,8 +80,25 @@ const handleWindowResize = () => {
   camera.updateProjectionMatrix();
 };
 
+const geometry = new THREE.BoxGeometry(0.01,0.01,0.01)
+function onSelect(){
+
+  
+  const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
+  const mesh = new THREE.Mesh( geometry, material );
+  mesh.position.set( 0, 0, - 0.3 ).applyMatrix4( controller.matrixWorld );
+  mesh.quaternion.setFromRotationMatrix( controller.matrixWorld );
+  scene.add( mesh );
+}
+
 // ----------------------------------------------> setup
 const sceneSetup = (root) => {
+  controller = renderer.xr.getController( 0 );
+	controller.addEventListener( 'select', onSelect );
+	scene.add( controller );
+
+				//
+
   renderer.setSize(width, height);
   // root.appendChild(renderer.domElement);
   window.addEventListener("resize", handleWindowResize);
