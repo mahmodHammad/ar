@@ -80,7 +80,9 @@ const handleWindowResize = () => {
   camera.updateProjectionMatrix();
 };
 
-const geometry = new THREE.BoxGeometry(0.01,0.01,0.01)
+
+const geometry = new THREE.CylinderGeometry( 0, 0.05, 0.2, 32 ).rotateX( Math.PI / 2 );
+
 function onSelect(){
 
   
