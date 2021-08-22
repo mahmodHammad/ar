@@ -43,7 +43,7 @@ const camera = new THREE.PerspectiveCamera(
   0.001, // near plane
   80000 // far plane
 );
-camera.position.set(0, 10, 80);
+camera.position.set(-4, 6, 10);
 
 // ----------------------------------------------> controls
 const controls = new OrbitControls(camera, renderer.domElement);

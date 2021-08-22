@@ -2,9 +2,13 @@ import * as THREE from "./modules/three.module.js";
 import { scene } from "./setup.js";
 import { loadModel } from "./ModelLoader.js";
 import {makeTextSprite} from "./drawText.js"
-import {setHDRLighting} from "./panorama.js"
-import {MeshLine ,MeshLineMaterial,MeshLineRaycast} from "./modules/threejs-meshline.js";
-console.log("FFFF",MeshLine)
+// import {setHDRLighting} from "./panorama.js"
+
+import { Line2 } from './modules/Line2.js';
+import { LineMaterial } from './modules/LineMaterial.js';
+import { LineGeometry } from './modules/LineGeometry.js';
+
+
 const  wheel = "three/models/table.glb"
 let model= undefined
 
@@ -23,17 +27,42 @@ function addLights() {
   scene.add(PointLight)
 }
 
-function AddLine(start, end, color = "#000000") {
-  const material = new MeshLineMaterial({
-    lineWidth: 0.004,
-    resolution: new THREE.Vector2(window.innerWidth, window.innerHeight),
-    color: new THREE.Color(color),
-    sizeAttenuation : true
-  });
-  const line = new MeshLine();
-  line.setVertices([start, end]);
+function AddLine(start, end, colored) {
 
-  return  new THREE.Mesh(line, material);;
+ const color  =new THREE.Color(colored)
+  const positions = [start.x,start.y,start.z , end.x,end.y,end.z];
+  const colors = [];
+
+
+  // positions.push(0, 0,  0 );
+  // positions.push( 2, 2,2 );
+
+colors.push( color.r, color.g, color.b );
+colors.push( color.r, color.g, color.b );
+
+  // Line2 ( LineGeometry, LineMaterial )
+
+  const geometry = new LineGeometry();
+  geometry.setPositions( positions );
+  geometry.setColors( colors );
+
+  const matLine = new LineMaterial( {
+
+    color: 0xffffff,
+    linewidth: 0.1, // in pixels
+    vertexColors: true,
+    resolution: new THREE.Vector2(window.innerWidth/10, window.innerHeight/10),
+    dashed: false,
+    alphaToCoverage: false,
+
+  } );
+
+  const line = new Line2( geometry, matLine );
+  line.computeLineDistances();
+  // line.scale.set( 0.01, 0.01, 0.01 );
+  scene.add( line );
+
+  return  line
 }
 
 function addAnnotation(targets, name){
@@ -88,7 +117,7 @@ function addLable({x,y,z},target){
 const addToScene = () => {
   addLights();
   addAnnotation()
-  setHDRLighting()
+  // setHDRLighting()
   const gm = new THREE.BoxGeometry(1,1,1)
   const mat = new THREE.MeshStandardMaterial()
   const mesh = new THREE.Mesh(gm,mat)
@@ -96,7 +125,7 @@ const addToScene = () => {
   scene.add(mesh)
 // 166106217
   const mesh2 = new THREE.Mesh(gm,mat)
-  mesh2.position.set(1,1,1)
+  mesh2.position.set(1,1,3)
   scene.add(mesh2)
   
   const mesh3 = new THREE.Mesh(gm,mat)
