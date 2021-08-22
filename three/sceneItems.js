@@ -9,13 +9,13 @@ import { LineMaterial } from './modules/LineMaterial.js';
 import { LineGeometry } from './modules/LineGeometry.js';
 
 
-const  wheel = "three/models/table.glb"
+const  wheel = "three/models/compressedTable.glb"
 let model= undefined
 
 function addLights() {
   const amplight = new THREE.AmbientLight("#ffffff", 0.0);
-  let lightBack = new THREE.SpotLight(0xff9900, 0.1);
-  let lightFront = new THREE.SpotLight(0x00ffff, 0.1);
+  let lightBack = new THREE.SpotLight(0xff9900, 0.01);
+  let lightFront = new THREE.SpotLight(0x00ffff, 0.01);
   let PointLight = new THREE.PointLight(0xffffff, 0);
   lightBack.position.set(2, 50, -7);
   lightFront.position.set(-2, -30, 7);
