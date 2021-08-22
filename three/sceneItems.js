@@ -2,7 +2,7 @@ import * as THREE from "./modules/three.module.js";
 import { scene } from "./setup.js";
 import { loadModel } from "./ModelLoader.js";
 import {makeTextSprite} from "./drawText.js"
-// import {setHDRLighting} from "./panorama.js"
+import {setHDRLighting} from "./panorama.js"
 
 import { Line2 } from './modules/Line2.js';
 import { LineMaterial } from './modules/LineMaterial.js';
@@ -13,10 +13,10 @@ const  wheel = "three/models/table.glb"
 let model= undefined
 
 function addLights() {
-  const amplight = new THREE.AmbientLight("#ffffff", 0.2);
-  let lightBack = new THREE.SpotLight(0xff9900, 0.2);
-  let lightFront = new THREE.SpotLight(0x00ffff, 0.2);
-  let PointLight = new THREE.PointLight(0xffffff, 0.2);
+  const amplight = new THREE.AmbientLight("#ffffff", 0.0);
+  let lightBack = new THREE.SpotLight(0xff9900, 0.1);
+  let lightFront = new THREE.SpotLight(0x00ffff, 0.1);
+  let PointLight = new THREE.PointLight(0xffffff, 0);
   lightBack.position.set(2, 50, -7);
   lightFront.position.set(-2, -30, 7);
   PointLight.position.set(10, 0, 20);
@@ -49,7 +49,7 @@ colors.push( color.r, color.g, color.b );
   const matLine = new LineMaterial( {
 
     color: 0xffffff,
-    linewidth: 0.1, // in pixels
+    linewidth: 0.18, // in pixels
     vertexColors: true,
     resolution: new THREE.Vector2(window.innerWidth/10, window.innerHeight/10),
     dashed: false,
@@ -109,7 +109,7 @@ function addLable({x,y,z},target){
     "target",
      5
   );
-  text2d.position.set(x , y+0.06 , z)
+  text2d.position.set(x , y+0.11 , z)
   return text2d
 }
 
@@ -117,7 +117,7 @@ function addLable({x,y,z},target){
 const addToScene = () => {
   addLights();
   addAnnotation()
-  // setHDRLighting()
+  setHDRLighting()
   const gm = new THREE.BoxGeometry(1,1,1)
   const mat = new THREE.MeshStandardMaterial()
   const mesh = new THREE.Mesh(gm,mat)
