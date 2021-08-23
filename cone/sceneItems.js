@@ -1,5 +1,5 @@
 import * as THREE from "../three/modules/three.module.js";
-// import { scene } from "./setup.js";
+import { scene } from "../cone.js";
 
 import { loadModel } from "./ModelLoader.js";
 import {makeTextSprite} from "./drawText.js"
@@ -82,12 +82,40 @@ var all = new THREE.Group();
   //   labelsGroup.add(indexGroupParent);
   all.add(annotation)
   });
+
+  const gm = new THREE.BoxGeometry(1, 0.1, 0.1);
+  const mat = new THREE.MeshStandardMaterial();
+  const mesh = new THREE.Mesh(gm, mat);
+  mesh.position.set(0, -0.5, -1);
+  // scene.add(mesh);
+  // 166106217
+  const mesh2 = new THREE.Mesh(gm, mat);
+  mesh2.position.set(0, 1, 3);
+  //   scene.add(mesh2)
+
+  const mesh3 = new THREE.Mesh(gm, mat);
+  mesh3.position.set(0, 0, 0);
   // return "hi";
-  return all
+  return mesh
 }
 
+function displayCoards(  gridSize =100,gridDivisions =100) {
+  scene.add(new THREE.AxesHelper(20));
+  scene.add(new THREE.GridHelper(gridSize, gridDivisions, "green", "green"));
+  scene.add(
+    new THREE.GridHelper(gridSize, gridDivisions, "blue", "blue").rotateX(
+      Math.PI / 2
+    )
+  );
+  scene.add(
+    new THREE.GridHelper(gridSize, gridDivisions, "red", "red").rotateZ(
+      Math.PI / 2
+    )
+  );
+}
 
 function addLable({x,y,z},target){
+  displayCoards()
   var text2d = makeTextSprite(
     target.name,
     target.color,
@@ -97,13 +125,13 @@ function addLable({x,y,z},target){
     1.5,
     target.color,
     "target",
-     5
+     500
   );
-  text2d.position.set(x , y+0.11 , z)
+  text2d.position.set(x , y+0.11 , -1)
   return text2d
 }
 
 // Any thing will be added to scene should be done here
 
 
-export {addAnnotation  };
+export {addAnnotation ,addLable };

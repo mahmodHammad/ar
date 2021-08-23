@@ -2,7 +2,7 @@ import * as THREE from "./three/modules/three.module.js";
 import { ARButton } from "./three/modules/ARButton.js";
 import { loadModel } from "./three/ModelLoader.js";
 const wheel = "./three/models/compressedTable.glb";
-import {addAnnotation} from "./cone/sceneItems.js"
+import {addAnnotation, addLable} from "./cone/sceneItems.js"
 let camera, scene, renderer, model;
 
 let controller;
@@ -74,7 +74,12 @@ function init() {
   //
 
   window.addEventListener("resize", onWindowResize);
-  scene.add(addAnnotation())
+  const lol = addAnnotation()
+  console.log(lol)
+  scene.add(lol)
+  let lable = addLable([0,1.1,1.2],{start:[0,0,0],end:[0,1.1,1.2],color:"#f94",name:"Table"});
+  scene.add(lable)
+
 
 }
 
