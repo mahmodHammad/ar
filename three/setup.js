@@ -1,11 +1,11 @@
 import * as THREE from "./modules/three.module.js";
-import { ARButton } from './modules/ARButton.js';
+import { ARButton } from "./modules/ARButton.js";
 import { OrbitControls } from "./modules/OrbitControls.js";
 import { displayCoards } from "./helper.js";
 import settings from "./variables/settings.js";
 
 // import Stats from "stats-js";
-import {addToScene} from "./sceneItems.js"
+import { addToScene } from "./sceneItems.js";
 
 THREE.Cache.enabled = true;
 
@@ -17,14 +17,14 @@ let height = window.innerHeight;
 
 const canvasElements = document.getElementsByTagName("canvas");
 const canvas = canvasElements[0];
-let controller
+let controller;
 
 // ----------------------------------------------> render
 const renderer = new THREE.WebGLRenderer({
   alpha: true,
   powerPreference: "high-performance",
   antialias: settings.enableAntialias,
-  logarithmicDepthBuffer:true
+  logarithmicDepthBuffer: true,
 });
 renderer.setPixelRatio(settings.quality);
 renderer.xr.enabled = true;
@@ -51,7 +51,17 @@ camera.position.set(-4, 6, 10);
 const controls = new OrbitControls(camera, renderer.domElement);
 function setupControls() {
   controls.target = new THREE.Vector3(0, 0, 0);
-  const{ctrlSpeed ,maxZoom,minZoom,maxPolarAngle,minPolarAngle,autoRotate,autoRotateSpeed,enableDamping,dampingFactor}=settings
+  const {
+    ctrlSpeed,
+    maxZoom,
+    minZoom,
+    maxPolarAngle,
+    minPolarAngle,
+    autoRotate,
+    autoRotateSpeed,
+    enableDamping,
+    dampingFactor,
+  } = settings;
 
   controls.zoomSpeed = ctrlSpeed;
   controls.panSpeed = ctrlSpeed;
@@ -67,7 +77,7 @@ function setupControls() {
   controls.autoRotateSpeed = autoRotateSpeed;
 
   controls.enableDamping = enableDamping;
-  controls.dampingFactor =dampingFactor;
+  controls.dampingFactor = dampingFactor;
 }
 
 // ----------------------------------------------> resize
@@ -80,46 +90,40 @@ const handleWindowResize = () => {
   camera.updateProjectionMatrix();
 };
 
+const geometry = new THREE.CylinderGeometry(0, 0.05, 0.2, 32).rotateX(
+  Math.PI / 2
+);
 
-const geometry = new THREE.CylinderGeometry( 0, 0.05, 0.2, 32 ).rotateX( Math.PI / 2 );
-
-function onSelect(){
-
-  
-  const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
-  const mesh = new THREE.Mesh( geometry, material );
-  mesh.position.set( 0, 0, - 0.3 ).applyMatrix4( controller.matrixWorld );
-  mesh.quaternion.setFromRotationMatrix( controller.matrixWorld );
-  scene.add( mesh );
+function onSelect() {
+  const material = new THREE.MeshPhongMaterial({
+    color: 0xffffff * Math.random(),
+  });
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set(0, 0, -0.3).applyMatrix4(controller.matrixWorld);
+  mesh.quaternion.setFromRotationMatrix(controller.matrixWorld);
+  scene.add(mesh);
 }
 
 // ----------------------------------------------> setup
 const sceneSetup = (root) => {
-  controller = renderer.xr.getController( 0 );
-	controller.addEventListener( 'select', onSelect );
-	scene.add( controller );
+  controller = renderer.xr.getController(0);
+  controller.addEventListener("select", onSelect);
+  scene.add(controller);
 
-				//
+  //
 
   renderer.setSize(width, height);
   // root.appendChild(renderer.domElement);
   window.addEventListener("resize", handleWindowResize);
 
   if (settings.developmentModel) {
-    displayCoards(100,10);
+    displayCoards(100, 10);
     // stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
     // document.body.appendChild(stats.dom);
   }
-  document.body.appendChild( ARButton.createButton( renderer ) );
+  document.body.appendChild(ARButton.createButton(renderer));
   setupControls();
-  addToScene()
+  addToScene();
 };
 
-export {
-  sceneSetup,
-  scene,
-  controls,
-  render,
-  renderer,
-  camera,
-};
+export { sceneSetup, scene, controls, render, renderer, camera };

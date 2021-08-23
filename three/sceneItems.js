@@ -1,5 +1,6 @@
 import * as THREE from "./modules/three.module.js";
-import { scene } from "./setup.js";
+// import { scene } from "./setup.js";
+import { scene } from "../cone.js";
 import { loadModel } from "./ModelLoader.js";
 import {makeTextSprite} from "./drawText.js"
 import {setHDRLighting} from "./panorama.js"
@@ -67,8 +68,8 @@ colors.push( color.r, color.g, color.b );
 
 function addAnnotation(targets, name){
  let test = [
-   {start:[0,0,0],end:[1,1.1,1.2],color:"#f94",name:"Table"},
-   {start:[-1.03,0.0,0],end:[-1.2,1.5,1],color:"#f94",name:"Chair"},
+   {start:[0,0,0],end:[0,1.1,1.2],color:"#f94",name:"Table"},
+   {start:[0,0.0,0],end:[-1.2,1.5,1],color:"#f94",name:"Chair"},
 ]
  test.forEach(target => {
     let { start, end,color,name } =target
@@ -121,17 +122,17 @@ const addToScene = () => {
   const gm = new THREE.BoxGeometry(1,0.1,0.1)
   const mat = new THREE.MeshStandardMaterial()
   const mesh = new THREE.Mesh(gm,mat)
-  mesh.position.set(0,0,-1)
+  mesh.position.set(0,-3,-1)
   scene.add(mesh)
 
   loadModel(wheel).then(glb=>{
-    model = glb
-    console.log(model)
-    model.position.set(0, 0, -2)
-    model.scale.set(0.001,0.0001,0.0001)
-    scene.add(model)
+
+    glb.position.set(0, 0, -2)
+    glb.scale.set(0.001,0.0001,0.0001)
+    scene.add(glb)
   }
   )
+ 
 };
 
 export { addToScene,model };
